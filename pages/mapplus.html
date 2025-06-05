@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>集美学村地图</title>
+  <link rel="stylesheet" href="../pages/map.css">
+</head>
+
+<body>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: '9f3b7a7f3858104e401e77d0f0aa0eb5',
+    }
+  </script>
+  <div id="left-container">
+    <div class="autocomplete-container">
+      <h2 class="panel-title">
+        <i class="bi bi-geo-alt-fill"></i>
+        集美学村地图
+      </h2>
+      <div class="search-container">
+        <input id="searchInput" type="text" placeholder="搜索地点...">
+        <button id="showAllbutton">显示</button>
+      </div>
+      <!-- 地点列表 -->
+      <div class="location-list" id="list">
+        <div class="location-card" data-lng="118.092927" data-lat="24.566334" data-category="食堂">
+          <h3><i class="bi bi-egg-fried"></i>集美学村</h3>
+          <p>书香浓郁 文化荟萃</p>
+        </div>
+
+        <div class="location-card" data-lng="118.09395" data-lat="24.56805" data-category="体育设施">
+          <h3><i class="bi bi-person-running"></i>集美大学航海学院</h3>
+          <p>海纳百川 育航海英</p>
+        </div>
+
+        <div class="location-card" data-lng="118.08905" data-lat="24.56365" data-category="体育设施">
+          <h3><i class="bi bi-badge-ad"></i>十里长堤</h3>
+          <p>风景秀丽 漫步休闲</p>
+        </div>
+
+        <div class="location-card" data-lng="118.0978" data-lat="24.56519" data-category="生活区">
+          <h3><i class="bi bi-signpost-split"></i>龙舟池</h3>
+          <p>龙舟竞渡 活力四射</p>
+        </div>
+
+        <div class="location-card" data-lng="118.103333" data-lat="24.56507" data-category="食堂">
+          <h3><i class="bi bi-cup-hot"></i>南熏楼</h3>
+          <p>古朴典雅 历史悠久</p>
+        </div>
+        <div class="location-card" data-lng="118.096" data-lat="24.56313" data-category="食堂">
+          <h3><i class="bi bi-cup-straw"></i>南堤公园</h3>
+          <p>绿意盎然 亲水怡人</p>
+        </div>
+      </div>
+    </div>
+    <div id="routes">
+      <h3>
+        <i class="bi bi-signpost-split"></i>
+        路线导航
+      </h3>
+
+      <div class="input-group">
+        <input type="text" id="start" placeholder="输入起点">
+        <button id="startButton">起点拾取</button>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="end" placeholder="输入终点">
+        <button id="endButton">终点拾取</button>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="nav-btn" id="walkingBtn">
+          <i class="bi bi-person-walking"></i>
+          步行路线
+        </button>
+        <button class="nav-btn" id="ridingBtn">
+          <i class="bi bi-bus-front"></i>
+          骑行线路
+        </button>
+        <button class="nav-btn" id="restoreBtn">
+          <i class="bi bi-arrow-clockwise"></i>
+          重置视图
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <div id="infoRoutes"></div>
+  </div>
+  <script
+    src="https://webapi.amap.com/maps?v=2.0&key=90eb79cc8323342dbabc7a1d6ebc04d6&plugin=AMap.ControlBar,AMap.ToolBar,AMap.AutoComplete,AMap.PlaceSearch,AMap.Scale,AMap.HawkEye,AMap.MapType,AMap.Geolocation,AMap.Driving,AMap.Walking,AMap.Riding,AMap.Transfer,AMap.Panorama,AMap.InfoWindow,AMap.GeometryUtil">
+    </script>
+  <script>
+    var map = new AMap.Map('container', {
+      resizeEnable: true,
+      zoom: 16.9,
+      zooms: [15, 20],
+      center: [118.096638,24.566103], // 集美学村的经纬度
+    });
+    var jimeiPath = [
+      [118.091374, 24.562121],
+      [118.093952, 24.56175],
+      [118.096514, 24.562908],
+      [118.102461, 24.563326],
+      [118.103315, 24.563907],
+      [118.104388, 24.563985],
+      [118.104345, 24.564595],
+      [118.104583, 24.564659],
+      [118.104853, 24.565061],
+      [118.103772, 24.5658],
+      [118.10351, 24.565565],
+      [118.102411, 24.565655],
+      [118.102449, 24.567947],
+      [118.102423, 24.570281],
+      [118.100842, 24.570024],
+      [118.100387, 24.569895],
+      [118.098584, 24.569994],
+      [118.097426, 24.570432],
+      [118.096730, 24.570646],
+      [118.096644, 24.569911],
+      [118.096227, 24.569936],
+      [118.095433, 24.569629],
+      [118.095355, 24.569523],
+      [118.094874, 24.569692],
+      [118.094723, 24.569362],
+      [118.094424, 24.568981],
+      [118.09338, 24.568001],
+      [118.092394, 24.566469],
+      [118.091149, 24.565225],
+      [118.090019, 24.565217],
+      [118.0859, 24.565839],
+      [118.085988, 24.565563],
+      [118.087389, 24.565366],
+      [118.08777, 24.565222],
+      [118.088192, 24.564896],
+      [118.08942, 24.562991]
+    ];
+
+    var jimeiArea = new AMap.Polygon({
+      path: jimeiPath,
+      strokeColor: "#FF0000",
+      strokeWeight: 4,
+      strokeStyle: "dashed",
+      strokeOpacity: 0.8,
+      fillColor: "#FF00001000",
+      fillOpacity: 0.1
+    });
+    map.add(jimeiArea);
+
+    map.addControl(new AMap.ControlBar({ position:{ right:'10px', top:'10px' }})); // 地图控制条
+        map.addControl(new AMap.ToolBar({ position:{ right:'10px', top:'230px' }})); // 工具栏
+        map.addControl(new AMap.Scale({ position:{ bottom:'20px', left:'20px' }})); // 比例尺
+        map.addControl(new AMap.HawkEye({ isOpen:true, position:{ right:'10px', bottom:'50px' }})); // 鹰眼
+        map.addControl(new AMap.MapType({ position:{ right:'10px', top:'110px' }})); // 地图类型切换
+        map.addControl(new AMap.Geolocation({ position:{ right:'10px', top:'300px' }})); // 定位控件
+
+    var markersData = [{
+      position: [118.0969, 24.56313],
+      label: "南堤公园",
+      infoContent: `
+            <div class="info-window-content">
+              <strong>南堤公园</strong><hr>
+              <a href="../pages/南堤公园.html" target="_blank">
+              <img src="../picture/南堤公园/南堤公园.png" alt="集美学村" class="scenic">
+              </a><br>
+              <span>费用：免费</span><br>
+              <span>开放时间：全天开放</span>
+            </div>
+          `,
+    },
+    {
+      position: [118.08905, 24.56365],
+      label: "十里长堤",
+      infoContent: `
+            <div class="info-window-content">
+              <strong>十里长堤</strong><hr>
+              <a href="../pages/十里长堤.html" target="_blank">
+              <img src="../picture/十里长堤/十里长堤夜晚.jpg" alt="集美学村" class="scenic">
+              </a><br>
+              <span>费用：免费</span><br>
+              <span>开放时间：全天开放</span>
+            </div>
+          `,
+    },
+    {
+      position: [118.092927, 24.566334],
+      label: "集美学村",
+      infoContent: `
+            <div class="info-window-content">
+              <strong>集美学村</strong><hr>
+              <a href="../pages/集美学村.html" target="_blank">
+              <img src="../picture/集美学村/集美学村门口.jpg" alt="集美学村" class="scenic">
+              </a><br>
+              <span>费用：免费</span><br>
+              <span>开放时间：全天开放</span>
+            </div>
+          `,
+    },
+    {
+      position: [118.0978, 24.56519],
+      label: "龙舟池",
+      infoContent: `
+            <div class="info-window-content">
+              <strong>龙舟池</strong><hr>
+              <a href="../pages/龙舟池.html" target="_blank">
+              <img src="../picture/龙舟池/龙舟池.png" alt="集美学村" class="scenic">
+              </a><br>
+              <span>费用：免费</span><br>
+              <span>开放时间：全天开放</span>
+            </div>
+          `,
+    },
+    {
+      position: [118.09395, 24.56805],
+      label: "集美大学航海学院",
+      infoContent: `
+            <div class="info-window-content">
+              <strong>集美大学航海学院</strong><hr>
+              <a href="../pages/集美大学航海学院.html" target="_blank">
+              <img src="../picture/集美大学航海学院/航海学院门口.jpg" alt="集美学村" class="scenic">
+              </a><br>
+              <span>费用：免费</span><br>
+              <span>开放时间：工作日开放</span>
+            </div>
+          `,
+    },
+    {
+      position: [118.103333, 24.56507],
+      label: "南熏楼",
+      infoContent: `
+            <div class="info-window-content">
+              <strong>南熏楼</strong><hr>
+              <a href="../pages/南熏楼.html" target="_blank">
+              <img src="../picture/南熏楼/南熏楼2.jpg" alt="集美学村" class="scenic">
+              </a><br>
+              <span>费用：免费</span><br>
+              <span>开放时间：全天开放</span>
+            </div>
+          `,
+    },
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const autocompleteItems = document.getElementById('autocomplete-items');
+    const list = document.getElementById('list');
+    const locationCard = document.querySelectorAll('.location-card');
+
+    // 获取信息显示元素
+    var infoStart = document.getElementById('start');
+    var infoEnd = document.getElementById('end');
+    var infoRoutes = document.getElementById('infoRoutes');
+
+    // 按钮元素
+    const showAllbutton = document.getElementById('showAllbutton');
+    var startButton = document.getElementById('startButton');
+    var endButton = document.getElementById('endButton');
+    var walkingBtn = document.getElementById('walkingBtn');
+    var ridingBtn = document.getElementById('ridingBtn');
+    var restoreBtn = document.getElementById('restoreBtn');
+
+    // 标记变量
+    var startMarker = null;
+    var endMarker = null;
+
+    // 状态变量
+    var selectingStart = false;
+    var selectingEnd = false;
+
+    // 当前路径规划对象
+    var currentRoute = null;
+
+    // 点击按钮选择起点
+    startButton.addEventListener('click', function () {
+      // 清除之前的路径规划
+      if (currentRoute) {
+        currentRoute.clear();
+        currentRoute = null;
+      }
+      //清空markers再添加marker
+      map.remove(searchMarkers);
+      selectingStart = true;
+      selectingEnd = false;
+      infoStart.placeholder = '请在地图上点击选择起点。';
+    });
+
+    // 点击按钮选择终点
+    endButton.addEventListener('click', function () {
+      // 清除之前的路径规划
+      if (currentRoute) {
+        currentRoute.clear();
+        currentRoute = null;
+      }
+      //清空markers再添加marker
+      map.remove(searchMarkers);
+      selectingEnd = true;
+      selectingStart = false;
+      infoEnd.placeholder = '请在地图上点击选择终点。';
+    });
+
+    function distinguishInput(input) {
+      var currentLngLat
+      if (input.includes(',')) {
+        // 假设是坐标字符串
+        currentLngLat = input.split(',').map(Number)
+        return currentLngLat
+      } else {
+        // 假设是地点名称
+        locationCard.forEach(card => {
+          var title = card.querySelector('h3').textContent.toLowerCase();
+          if (title.trim() == input.toLowerCase().trim()) {
+            var lng = parseFloat(card.getAttribute('data-lng'));
+            var lat = parseFloat(card.getAttribute('data-lat'));
+            currentLngLat = [lng, lat]
+            return;
+          } else {
+
+          }
+        });
+        return currentLngLat;
+      }
+    }
+    function addStaEnd(e) {
+      if (selectingStart) {
+        // 获取经纬度
+        var lng = e.lnglat.getLng();
+        var lat = e.lnglat.getLat();
+        infoStart.value = lng + ',' + lat
+
+        // 清除之前的起点标记
+        if (startMarker) {
+          map.remove(startMarker);
+        }
+
+        // 创建新的起点标记
+        startMarker = new AMap.Marker({
+          position: [lng, lat],
+          map: map,
+          icon: new AMap.Icon({
+            image: 'https://a.amap.com/jsapi/static/image/plugin/marker/start.png',
+            imageSize: new AMap.Size(25, 30) // 设置图标大小为 25×30 像素
+          }),
+          offset: new AMap.Pixel(-12.5, -30) // 调整锚点（可选）
+        });
+
+        selectingStart = false;
+      } else if (selectingEnd) {
+        // 获取经纬度
+        var lng = e.lnglat.getLng();
+        var lat = e.lnglat.getLat();
+        infoEnd.value = lng + ',' + lat
+
+
+        // 清除之前的终点标记
+        if (endMarker) {
+          map.remove(endMarker);
+        }
+
+        // 创建新的终点标记
+        endMarker = new AMap.Marker({
+          position: [lng, lat],
+          map: map,
+          icon: new AMap.Icon({
+            image: 'https://a.amap.com/jsapi/static/image/plugin/marker/end.png',
+            imageSize: new AMap.Size(25, 30)
+          }),
+          offset: new AMap.Pixel(-12.5, -30) // 调整锚点（可选）
+        });
+
+        selectingEnd = false;
+      }
+    }
+    // 路径规划函数
+    function planRoute(methd) {
+
+      var startInput = infoStart.value.trim()
+      var endInput = infoEnd.value.trim()
+      if (!startInput || !endInput) {
+        alert('请先选择起点和终点。');
+        return;
+      }
+      // 清除之前的路径规划
+      if (currentRoute) {
+        currentRoute.clear();
+        currentRoute = null;
+      }
+
+      // var startInput = infoStart.value.trim()
+      // var endInput = infoEnd.value.trim()
+      var startLngLat = distinguishInput(startInput);
+      var endLngLat = distinguishInput(endInput)
+      // var startLngLat = startMarker.getPosition();
+      // var endLngLat = endMarker.getPosition();
+
+
+
+      if (methd == 'walking') {
+        // 创建步行导航对象
+        var walking = new AMap.Walking({
+          map: map,
+          policy: AMap.RidingPolicy.LEAST_DISTANCE, // 设置步行路径规划策略为最短时间
+          panel: "infoRoutes" // 将路径信息显示在info元素中
+        });
+
+        // 执行步行路径规划
+        walking.search(startLngLat, endLngLat, function (status, result) {
+          if (status === 'complete') {
+            infoRoutes.innerHTML = '步行路径规划成功！';
+          } else {
+            infoRoutes.innerHTML = '步行路径规划失败。';
+          }
+        });
+        // 当前路径规划对象
+        currentRoute = walking;
+      } else if (methd == 'riding') {
+        // 创建骑行导航对象
+        var riding = new AMap.Riding({
+          map: map,
+          policy: AMap.RidingPolicy.LEAST_DISTANCE, // 设置骑行路径规划策略为最短距离
+          // policy: AMap.RidingPolicy.LEAST_TIME, // 设置骑行路径规划策略为最短时间
+          panel: "infoRoutes" // 将路径信息显示在info元素中
+        });
+
+        // 执行骑行路径规划
+        riding.search(startLngLat, endLngLat, function (status, result) {
+          if (status === 'complete') {
+            infoRoutes.innerHTML = '骑行路径规划成功！';
+          } else {
+            infoRoutes.innerHTML = '骑行路径规划失败。';
+          }
+        });
+        // 当前路径规划对象
+        currentRoute = riding;
+      }
+      if (currentRoute) {
+        map.remove(startMarker)
+        map.remove(endMarker);
+
+      }
+    }
+    // 添加路径规划按钮
+    walkingBtn.addEventListener('click', function () {
+      planRoute('walking');
+    });
+    ridingBtn.addEventListener('click', function () {
+      planRoute('riding');
+
+    });
+
+    //添加起点输入监听器
+    infoStart.addEventListener('focus', function () {
+      infoStart.placeholder = '输入起点';
+    });
+    //添加终点输入监听器
+    infoEnd.addEventListener('focus', function () {
+      infoEnd.placeholder = '输入终点';
+    });
+
+    // 添加点击事件监听器
+    jimeiArea.on('click', function (e) {
+      addStaEnd(e);
+    });
+    map.on('click', function (e) {
+      addStaEnd(e);
+    });
+
+
+    var infoWindow = new AMap.InfoWindow({
+      anchor: 'bottom-center',
+      offset: new AMap.Pixel(0, -30),
+    });
+
+    var searchMarkers = [];
+    var originalMarkers = [];
+
+
+    var searchMarkers = [];
+    var originalMarkers = [];
+
+    function addMarker(data) {
+      var marker = new AMap.Marker({
+        position: data.position,
+        title: data.label,
+      });
+      map.add(marker);
+      searchMarkers.push(marker);
+      infoWindow.setContent(data.infoContent);
+      infoWindow.open(map, marker.getPosition());
+      marker.on("click", function () {
+        infoWindow.setContent(data.infoContent);
+        infoWindow.open(map, marker.getPosition());
+      });
+    }
+    // 搜索功能
+    searchInput.addEventListener('input', function () {
+      const query = this.value.toLowerCase();
+      locationCard.forEach(card => {
+        var title = card.querySelector('h3').textContent.toLowerCase();
+        var desc = card.querySelector('p').textContent.toLowerCase();
+
+        if (title.includes(query) || desc.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+    });
+    // 地图点击关闭信息窗口
+    map.on("click", function () {
+      infoWindow.close();
+    });
+
+    // 地图点击关闭信息窗口
+    jimeiArea.on("click", function () {
+      infoWindow.close();
+    });
+
+    // 添加卡片监听
+    locationCard.forEach(c => {
+      c.addEventListener('click', function () {
+        locationCard.forEach(card => card.classList.remove('active'));
+        c.classList.add('active');
+        const title = c.querySelector('h3').textContent;
+        searchInput.value = title;
+        // 点击卡片后，获取经纬度并设置地图中心
+        // const lng =parseFloat(c.getAttribute('data-lng'));
+        // const lat = parseFloat(c.getAttribute('data-lat'));
+        markersData.forEach(function (data) {
+          if (data.label === title.trim()) {
+            //清空markers再添加marker
+            map.remove(searchMarkers);
+            addMarker(data);
+            map.setCenter(data.position);
+            map.setZoom(18);
+          }
+        });
+      })
+
+    });
+
+    showAllbutton.addEventListener('click', function () {
+      markersData.forEach(function (data) {
+        addMarker(data);
+        map.setZoom(16.8)
+      });
+
+    });
+
+    // 恢复默认视图按钮
+    restoreBtn.addEventListener('click', function () {
+      infoStart.placeholder = '输入起点';
+      infoEnd.placeholder = '输入终点 ';
+      // 恢复默认视图
+      map.setZoom(16.9);
+      map.setCenter([118.096638,24.566103]);
+      // 清除之前的路径规划
+      // 可能 currentRoute 为 null，直接调用会报错
+      if (currentRoute) {
+        currentRoute.clear();
+        currentRoute = null;
+      }
+      // 清除起点和终点标记
+      map.remove(searchMarkers);
+      infoWindow.close();
+      //可能 startMarker 和 endMarker 为 null，直接调用会报错
+      if (startMarker) {
+        map.remove(startMarker);
+        startMarker = null;
+      }
+      if (endMarker) {
+        map.remove(endMarker);
+        endMarker = null;
+      }
+    });
+
+  </script>
+</body>
+
+</html>
