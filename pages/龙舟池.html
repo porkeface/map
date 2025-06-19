@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙舟池</title>
+    <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #panorama {
+            width: 100%; /* 全景图占满宽度 */
+            height: 100%;
+            position: relative; /* 为悬浮缩略图提供定位上下文 */
+        }
+        .thumbnail-container {
+            position: absolute; /* 悬浮在全景图上层 */
+            right: 0; /* 靠右对齐 */
+            top: 50%; /* 垂直居中 */
+            transform: translateY(-50%); /* 垂直居中调整 */
+            width: 20%; /* 缩略图区域占 20% 宽度 */
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+            border-radius: 5px;
+            z-index: 1000; /* 确保高于全景图 */
+            max-height: 80vh; /* 限制最大高度，支持滚动 */
+            overflow-y: auto; /* 垂直滚动 */
+            overflow-x: hidden; /* 禁止水平滚动 */
+            box-sizing: border-box; /* 确保 padding 不影响宽度 */
+        }
+        .thumbnail {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            display: block; /* 确保从上到下排列 */
+            box-sizing: border-box; /* 确保 border 不影响宽度 */
+        }
+        .thumbnail:hover {
+            border-color: #007bff;
+        }
+        .overlay {
+            position: absolute;
+            top: 20px;
+            left: 50%; /* 居中 */
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .overlay h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .overlay p {
+            margin: 5px 0 0;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <script src="../server/fetchData.js"></script>
+    <div id="panorama"></div>
+    <div class="thumbnail-container">
+        <img src="../picture/龙舟池/龙舟池全景1.jpg" alt="龙舟池全景1" class="thumbnail" data-panorama="../picture/龙舟池/龙舟池全景1.jpg">
+    </div>
+    <div class="overlay">
+        <h1 id="scenicName"></h1>
+        <p id="scenicDescription"></p>
+    </div>
+    <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
+    <script>
+        // 初始化全景图
+        let viewer = pannellum.viewer('panorama', {
+            "type": "equirectangular",
+            "panorama": "../picture/龙舟池/龙舟池全景1.jpg",
+            "autoLoad": true,
+            "showControls": true,
+            "autoRotate": 12,
+            "autoRotatePauseHover": true,
+        });
+
+        // 为缩略图添加点击事件
+        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                const newPanorama = this.getAttribute('data-panorama');
+                console.log('Loading new panorama:', newPanorama); // 调试日志
+                if (viewer) {
+                    viewer.destroy(); // 销毁当前 viewer
+                    viewer = pannellum.viewer('panorama', {
+                        "type": "equirectangular",
+                        "panorama": newPanorama,
+                        "autoLoad": true,
+                        "showControls": true,
+                        "autoRotate": 12,
+                        "autoRotatePauseHover": true,
+                    });
+                }
+            });
+        });
+    // 调用公共函数加载数据
+    loadScenicData('龙舟池', viewer);
+    </script>
+</body>
+</html>
