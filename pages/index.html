@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>集美学村全景地图</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    /* h1 {
+            color: #333;
+            margin-top: 20px;
+        } */
+    /* 顶部导航栏样式 */
+    .navbar {
+      background-color: #333;
+      color: white;
+      display: flex;
+      padding: 10px 20px;
+      /* position: fixed; */
+      /* top: 80px; */
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      justify-content: center;    /* 水平居中 */
+      align-items: center;        /* 垂直居中 */
+      gap: 150px; /* 所有链接之间的间距是 100px */
+    }
+    .navbar a {
+      color: white;
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    /* 内容区域 iframe */
+    .content {
+      margin-top: 0px; /* 留出导航栏高度 */
+      height: calc(100vh - 60px);
+      width: 100%;
+      border: none;
+    }
+
+  </style>
+</head>
+<body>
+    <!-- <h1>集美学村全景地图</h1> -->
+  <div class="navbar">
+    <!-- <a href="home.html" target="mainFrame">简介</a> -->
+    <a href="./mapplus.html" target="mainFrame">地图导航</a>
+    <a href="./intro.html" target="mainFrame">景点介绍</a>
+  </div>
+  <iframe name="mainFrame" src="./mapplus.html" class="content"></iframe>
+
+</body>
+</html>

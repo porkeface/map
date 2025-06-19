@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>南熏楼</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    /* 或者使用图片作为背景 */
+    background: url('../picture/南熏楼/南熏楼背景.png') no-repeat center center fixed; 
+    background-size: cover;
+    }
+    .carousel {
+    width: 800px;
+    height: 800px;
+    position: relative;
+    perspective: 1800px;
+    
+  }
+  .carousel__container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+  }
+  .carousel__item {
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    left: 250px;
+    top: 300px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .overlay {
+            position: absolute;
+            top: 20px;
+            left: 50%; /* 居中 */
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 2000;
+        }
+        .overlay h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .overlay p {
+            margin: 5px 0 0;
+            font-size: 1em;
+        }
+  </style>
+</head>
+<body>
+  <script src="../server/fetchData.js"></script>
+  <div class="overlay">
+        <h1 id="scenicName"></h1>
+        <p id="scenicDescription"></p>
+  </div>
+  <div class="carousel">
+    <div class="carousel__container" id="carouselContainer">
+      <div class="carousel__item"><img src="../picture/南熏楼/南熏楼介绍.jpg" alt="3"></div>
+      <div class="carousel__item"><img src="../picture/南熏楼/南熏楼1.jpg" alt="1"></div>
+      <div class="carousel__item"><img src="../picture/南熏楼/南熏楼2.jpg" alt="2"></div>
+      <div class="carousel__item"><img src="../picture/南熏楼/南熏楼3.jpg" alt="3"></div>    
+    </div>
+  </div>
+  <script>
+    const container = document.getElementById('carouselContainer');
+    const items = document.querySelectorAll('.carousel__item');
+    const itemCount = items.length;
+    const deg = 360 / itemCount;
+    const radius = 420;
+    let angle = 0;
+    let autoRotate = true;
+    let lastX = 0;
+    let dragging = false;
+    
+    // 初始化每个图片的3D位置
+    items.forEach((item, i) => {
+      item.style.transform = `rotateY(${i * deg}deg) translateZ(${radius}px)`;
+    });
+    
+    function render() {
+      container.style.transform = `rotateY(${angle}deg)`;
+    }
+    
+    function animate() {
+      if (autoRotate) {
+        angle += 0.2;
+        render();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+    
+    container.addEventListener('mousedown', e => {
+      autoRotate = false;
+      dragging = true;
+      lastX = e.clientX;
+    });
+    document.addEventListener('mousemove', e => {
+      if (dragging) {
+        const dx = e.clientX - lastX;
+        angle += dx * 0.5;
+        lastX = e.clientX;
+        render();
+      }
+    });
+    document.addEventListener('mouseup', () => {
+      dragging = false;
+      autoRotate = true;
+    });
+    // 兼容移动端
+    container.addEventListener('touchstart', e => {
+      autoRotate = false;
+      dragging = true;
+      lastX = e.touches[0].clientX;
+    });
+    document.addEventListener('touchmove', e => {
+      if (dragging) {
+        const dx = e.touches[0].clientX - lastX;
+        angle += dx * 0.5;
+        lastX = e.touches[0].clientX;
+        render();
+      }
+    });
+    document.addEventListener('touchend', () => {
+      dragging = false;
+      autoRotate = true;
+    });
+    // 调用公共函数加载数据
+    loadScenicData('南熏楼');
+    </script>
+</body>
+</html>
